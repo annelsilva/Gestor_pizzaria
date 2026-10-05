@@ -1,6 +1,6 @@
 /* ============================================================
    FRATELLA · Sistema de Gestão de Pizzaria
-   Paleta base: #0b1117 (fundo) · #111a22 (painel) · #e07b12 (destaque)
+   Paleta base Login: #0b1117 (fundo) · #e07b12 (destaque)
    ============================================================ */
 
 :root{
@@ -38,7 +38,7 @@ button{font-family:inherit;cursor:pointer;border:none}
 a{color:inherit}
 input,select,textarea{font-family:inherit}
 
-/* ============================ LOGIN ============================ */
+/* ============================ LOGIN (INTACTO) ============================ */
 .login-container{
   --cream:#f8ece0;
   --field:#fdf8f2;
@@ -231,12 +231,30 @@ input,select,textarea{font-family:inherit}
   .login-content{padding-top:64px}
 }
 
-/* ============================ APP SHELL ============================ */
-.app-container{
+/* ============================ APP SHELL (TONS PASTÉIS) ============================ */
+.app-container, .toast {
+  --bg: #f2ece4;          /* Fundo bege areia pastel */
+  --panel: #faf5ee;       /* Cartões/Painel creme macio */
+  --panel-2: #e8dfd5;     /* Destak e entradas tom bege médio pastel */
+  --line: #d8ccc0;        /* Linhas e divisores pastel */
+  --ink: #322822;         /* Texto marrom café escuro suave */
+  --ink-soft: #7a6d63;    /* Texto secundário tom terra suave */
+  --orange: #e07b12;      /* Laranja característico da Fratella */
+  --orange-soft: rgba(224, 123, 18, 0.14);
+  --green: #48a97c;       /* Verde sálvia pastel */
+  --red: #d96262;         /* Terracota / vermelho pastel */
+  --yellow: #e2a63b;      /* Amarelo pastel */
+  --shadow: 0 8px 24px rgba(70, 50, 35, 0.06);
+}
+
+.app-container {
   display:grid;
   grid-template-columns:250px 1fr;
   min-height:100vh;
+  background: var(--bg);
+  color: var(--ink);
 }
+
 .sidebar{
   background:var(--panel);
   border-right:1px solid var(--line);
@@ -252,31 +270,35 @@ input,select,textarea{font-family:inherit}
 .user-chip{
   display:flex;align-items:center;gap:10px;
   padding:10px;border-radius:12px;background:var(--panel-2);
+  border:1px solid var(--line);
 }
 .user-avatar{
   width:36px;height:36px;border-radius:50%;
-  background:var(--orange);color:#1a0f02;
+  background:var(--orange);color:var(--panel);
   display:grid;place-items:center;font-weight:700;
 }
-.user-chip strong{display:block;font-size:.9rem}
+.user-chip strong{display:block;font-size:.9rem;color:var(--ink)}
 .user-chip small{color:var(--ink-soft);font-size:.72rem}
 .sidebar nav{flex:1}
 .sidebar ul{list-style:none;display:flex;flex-direction:column;gap:4px}
 .sidebar a{
   display:block;padding:11px 14px;border-radius:10px;
   color:var(--ink-soft);text-decoration:none;font-size:.9rem;font-weight:500;
+  transition: background .15s ease, color .15s ease;
 }
 .sidebar a:hover{background:var(--panel-2);color:var(--ink)}
 .sidebar li.active a{background:var(--orange-soft);color:var(--orange);font-weight:600}
 .btn-logout{
   padding:12px;border-radius:10px;background:transparent;
   border:1px solid var(--line);color:var(--ink-soft);font-size:.88rem;
+  transition: all .15s ease;
 }
-.btn-logout:hover{border-color:var(--red);color:var(--red)}
+.btn-logout:hover{border-color:var(--red);color:var(--red);background: rgba(217, 98, 98, 0.08);}
 .menu-toggle{
   display:none;position:fixed;top:14px;left:14px;z-index:60;
   width:42px;height:42px;border-radius:10px;
   background:var(--panel);border:1px solid var(--line);color:var(--ink);font-size:1.1rem;
+  box-shadow: var(--shadow);
 }
 
 .main-content{padding:26px 30px 60px;min-width:0}
@@ -284,15 +306,17 @@ input,select,textarea{font-family:inherit}
   display:flex;align-items:center;justify-content:space-between;gap:16px;
   flex-wrap:wrap;margin-bottom:26px;
 }
-.top-bar h1{font-size:1.9rem}
+.top-bar h1{font-size:1.9rem;color:var(--ink)}
 .top-actions{display:flex;align-items:center;gap:12px}
 .today-chip{
   font-size:.78rem;color:var(--ink-soft);
   border:1px solid var(--line);border-radius:999px;padding:6px 12px;
+  background: var(--panel);
 }
 .btn-excel{
   padding:11px 18px;border-radius:10px;
   background:var(--orange);color:#1a0f02;font-weight:600;font-size:.86rem;
+  box-shadow: 0 2px 8px rgba(224, 123, 18, 0.22);
 }
 .btn-excel:hover{filter:brightness(1.08)}
 
@@ -307,19 +331,21 @@ input,select,textarea{font-family:inherit}
   border:1px solid var(--line);
   border-radius:var(--radius);
   padding:20px;
+  box-shadow: var(--shadow);
 }
-.card h3{font-size:1.1rem;margin-bottom:4px}
+.card h3{font-size:1.1rem;margin-bottom:4px;color:var(--ink)}
 .card .card-sub{color:var(--ink-soft);font-size:.8rem;margin-bottom:16px}
 
 .kpi{
   background:var(--panel);
   border:1px solid var(--line);
-  border-left:3px solid var(--orange);
+  border-left:4px solid var(--orange);
   border-radius:var(--radius);
   padding:18px 20px;
+  box-shadow: var(--shadow);
 }
 .kpi .kpi-label{color:var(--ink-soft);font-size:.78rem;margin-bottom:8px}
-.kpi .kpi-value{font-size:1.75rem;font-weight:700}
+.kpi .kpi-value{font-size:1.75rem;font-weight:700;color:var(--ink)}
 .kpi .kpi-foot{margin-top:8px;font-size:.76rem;color:var(--ink-soft)}
 .kpi.good{border-left-color:var(--green)}
 .kpi.warn{border-left-color:var(--yellow)}
@@ -331,25 +357,26 @@ input,select,textarea{font-family:inherit}
   display:flex;align-items:baseline;justify-content:space-between;
   gap:12px;flex-wrap:wrap;margin:30px 0 14px;
 }
-.section-title h2{font-size:1.3rem}
+.section-title h2{font-size:1.3rem;color:var(--ink)}
 .section-title p{color:var(--ink-soft);font-size:.82rem}
 
-/* Alertas neon */
+/* Alertas estilo pastel */
 .alert-card{
   position:relative;
-  background:var(--panel-2);
+  background:var(--panel);
   border:1px solid var(--line);
   border-radius:var(--radius);
   padding:18px 20px;
   overflow:hidden;
+  box-shadow: var(--shadow);
 }
 .alert-card::before{
   content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
-  background:var(--orange);box-shadow:0 0 18px 2px var(--orange);
+  background:var(--orange);
 }
-.alert-card.critical::before{background:var(--red);box-shadow:0 0 18px 2px var(--red)}
-.alert-card.info::before{background:var(--green);box-shadow:0 0 18px 2px var(--green)}
-.alert-card h4{font-size:.95rem;margin-bottom:6px}
+.alert-card.critical::before{background:var(--red)}
+.alert-card.info::before{background:var(--green)}
+.alert-card h4{font-size:.95rem;margin-bottom:6px;color:var(--ink)}
 .alert-card p{color:var(--ink-soft);font-size:.82rem;line-height:1.5}
 .alert-card .alert-tag{
   display:inline-block;margin-bottom:8px;font-size:.68rem;font-weight:700;
@@ -366,8 +393,8 @@ thead th{
   font-weight:600;font-size:.78rem;border-bottom:1px solid var(--line);
   white-space:nowrap;
 }
-tbody td{padding:14px;border-bottom:1px solid rgba(34,48,60,.6);vertical-align:middle}
-tbody tr:hover{background:rgba(224,123,18,.05)}
+tbody td{padding:14px;border-bottom:1px solid var(--line);vertical-align:middle;color:var(--ink)}
+tbody tr:hover{background:rgba(224,123,18,.06)}
 tbody tr:last-child td{border-bottom:none}
 td.num,th.num{text-align:right}
 
@@ -375,13 +402,13 @@ td.num,th.num{text-align:right}
   display:inline-block;padding:4px 10px;border-radius:999px;
   font-size:.72rem;font-weight:600;
 }
-.badge.ok{background:rgba(62,201,138,.14);color:var(--green)}
-.badge.warn{background:rgba(240,192,64,.14);color:var(--yellow)}
-.badge.bad{background:rgba(239,90,90,.14);color:var(--red)}
+.badge.ok{background:rgba(72,169,124,.18);color:var(--green)}
+.badge.warn{background:rgba(226,166,59,.18);color:var(--yellow)}
+.badge.bad{background:rgba(217,98,98,.18);color:var(--red)}
 .badge.neutral{background:var(--panel-2);color:var(--ink-soft)}
 
 /* Barras de nível */
-.bar{height:7px;border-radius:999px;background:var(--panel-2);overflow:hidden;min-width:90px}
+.bar{height:7px;border-radius:999px;background:var(--panel-2);overflow:hidden;min-width:90px;border: 1px solid var(--line)}
 .bar span{display:block;height:100%;background:var(--green);border-radius:999px}
 .bar.warn span{background:var(--yellow)}
 .bar.bad span{background:var(--red)}
@@ -393,23 +420,24 @@ td.num,th.num{text-align:right}
   width:100%;padding:11px 12px;border-radius:10px;
   background:var(--panel-2);border:1px solid var(--line);color:var(--ink);font-size:.88rem;
 }
-.field input:focus,.field select:focus{outline:2px solid var(--orange);outline-offset:1px}
+.field input:focus,.field select:focus{outline:2px solid var(--orange);outline-offset:1px;background:var(--panel)}
 .btn{
   padding:11px 18px;border-radius:10px;background:var(--orange);
   color:#1a0f02;font-weight:600;font-size:.86rem;
+  box-shadow: 0 2px 6px rgba(224, 123, 18, 0.2);
 }
 .btn:hover{filter:brightness(1.08)}
-.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);box-shadow:none}
 .btn.ghost:hover{border-color:var(--orange);color:var(--orange)}
 .btn.small{padding:7px 12px;font-size:.78rem}
-.btn.danger{background:transparent;border:1px solid var(--red);color:var(--red)}
+.btn.danger{background:transparent;border:1px solid var(--red);color:var(--red);box-shadow:none}
 
 /* Gráficos */
 .chart-box{position:relative;height:300px}
 .chart-box.tall{height:340px}
 
 /* Progresso de meta */
-.meta-bar{height:12px;border-radius:999px;background:var(--panel-2);overflow:hidden;margin-top:12px}
+.meta-bar{height:12px;border-radius:999px;background:var(--panel-2);overflow:hidden;margin-top:12px;border:1px solid var(--line)}
 .meta-bar span{display:block;height:100%;background:linear-gradient(90deg,var(--orange),#f0a04a)}
 
 /* Mapa de calor */
@@ -419,18 +447,19 @@ td.num,th.num{text-align:right}
 .heat-cell{
   aspect-ratio:1/1;border-radius:10px;border:1px solid var(--line);
   padding:8px;display:flex;flex-direction:column;justify-content:space-between;
-  font-size:.7rem;line-height:1.2;
+  font-size:.7rem;line-height:1.2;background: var(--panel);
 }
-.heat-cell strong{font-size:.95rem;font-family:'Bodoni Moda',serif}
-.heat-cell.empty{opacity:.25}
+.heat-cell strong{font-size:.95rem;font-family:'Bodoni Moda',serif;color:var(--ink)}
+.heat-cell.empty{opacity:.4;background: var(--panel-2)}
 .heat-legend{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:.76rem;color:var(--ink-soft)}
 .heat-legend i{width:26px;height:10px;border-radius:3px;display:inline-block}
 
 /* Listas simples */
 .rank-list{list-style:none;display:flex;flex-direction:column;gap:10px}
-.rank-list li{display:flex;align-items:center;gap:12px;font-size:.88rem}
+.rank-list li{display:flex;align-items:center;gap:12px;font-size:.88rem;color:var(--ink)}
 .rank-list .pos{
   width:24px;height:24px;border-radius:7px;background:var(--panel-2);
+  border: 1px solid var(--line);
   display:grid;place-items:center;font-size:.75rem;color:var(--ink-soft);
 }
 .rank-list .val{margin-left:auto;color:var(--ink-soft);font-size:.82rem}
@@ -440,8 +469,9 @@ td.num,th.num{text-align:right}
 /* Toast */
 .toast{
   position:fixed;right:24px;bottom:24px;z-index:80;
-  background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--green);
+  background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--green);
   padding:14px 18px;border-radius:12px;box-shadow:var(--shadow);font-size:.86rem;max-width:330px;
+  color: var(--ink);
 }
 .toast.error{border-left-color:var(--red)}
 
