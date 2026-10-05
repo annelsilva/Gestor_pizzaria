@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Gestão Pizzaria</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <!-- Incluir Chart.js para os gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- TELA DE LOGIN FULLSCREEN -->
+  <div id="login-screen" class="login-container">
+    <div class="bg-diagonal-orange" aria-hidden="true">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+        <polygon points="0,0 100,0 100,4 0,30"/>
+        <line x1="0" y1="28" x2="100" y2="2.5"/>
+      </svg>
+    </div>
+
+    <img src="img/fratella.png.png" alt="Fratella" class="login-logo">
+
+    <div class="dark-banner">
+      <img src="img/anne.png.png" alt="Pizza" class="pizza-img">
+    </div>
+
+    <div class="login-content">
+      <h2 class="title">Bem vindo(a)</h2>
+      <form id="login-form">
+        <div class="input-box">
+          <input type="text" id="username" placeholder="Email, CPF ou CNPJ" aria-label="Email, CPF ou CNPJ" autocomplete="username" required>
+        </div>
+        <div class="input-box password-box">
+          <input type="password" id="password" placeholder="Senha" aria-label="Senha" autocomplete="current-password" required>
+          <button type="button" id="eye-btn" class="eye-btn" onclick="togglePassword()" aria-label="Mostrar senha" aria-pressed="false">
+            <!-- olho cortado: senha oculta -->
+            <svg class="eye-closed" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.09 9.09 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+            <!-- olho aberto: senha visível -->
+            <svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+        <div class="forgot-password"><a href="#">Esqueci minha senha</a></div>
+        <button type="submit" class="btn-login">Entrar</button>
+        <p id="login-error" class="error-msg" role="alert"></p>
+      </form>
+      <div class="divider"><span>Ou</span></div>
+      <div class="social-buttons">
+        <button type="button" class="btn-social"><img src="https://www.svgrepo.com/show/475656/google-color.svg" alt=""> Google</button>
+        <button type="button" class="btn-social"><img src="https://www.svgrepo.com/show/475647/facebook-color.svg" alt=""> Facebook</button>
+      </div>
+      <div class="register-text"><span>Não tem uma conta? </span><a href="#">Cadastre-se</a></div>
+    </div>
+  </div>
+
+  <!-- SISTEMA INTERNO (Oculto antes do login) -->
+  <div id="app-screen" class="app-container hidden">
+    <button id="menu-toggle" class="menu-toggle" onclick="toggleSidebar()" aria-label="Abrir menu">☰</button>
+
+    <aside class="sidebar" id="sidebar">
+      <img src="img/fratella.png.png" alt="Logo" class="sidebar-logo">
+      <div class="user-chip">
+        <span class="user-avatar" id="user-initial">D</span>
+        <div>
+          <strong id="user-name">Dona</strong>
+          <small id="user-role">Acesso total</small>
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li class="nav-item role-dono"><a href="#" onclick="showSection('dashboard')">Dashboard BI</a></li>
+          <li class="nav-item role-dono role-gerente"><a href="#" onclick="showSection('pedidos')">Central de Pedidos</a></li>
+          <li class="nav-item role-gerente role-dono"><a href="#" onclick="showSection('compras')">Lançar Compras</a></li>
+          <li class="nav-item role-gerente role-dono"><a href="#" onclick="showSection('estoque')">Estoque &amp; Insumos</a></li>
+          <li class="nav-item role-dono"><a href="#" onclick="showSection('custos')">Custos &amp; DRE</a></li>
+          <li class="nav-item role-dono"><a href="#" onclick="showSection('inflacao')">Inflação &amp; Insumos</a></li>
+          <li class="nav-item role-dono"><a href="#" onclick="showSection('mapa')">Mapa de Calor</a></li>
+        </ul>
+      </nav>
+      <button id="logout-btn" class="btn-logout">Sair</button>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <h1 id="welcome-msg">Painel Geral</h1>
+        <div class="top-actions">
+          <span class="today-chip" id="today-chip"></span>
+          <button onclick="exportarExcel()" class="btn-excel">Exportar Excel (.XLSX)</button>
+        </div>
+      </header>
+
+      <!-- SEÇÕES SERÃO RENDERIZADAS AQUI -->
+      <section id="dashboard" class="tab-content"></section>
+      <section id="pedidos" class="tab-content hidden"></section>
+      <section id="compras" class="tab-content hidden"></section>
+      <section id="estoque" class="tab-content hidden"></section>
+      <section id="custos" class="tab-content hidden"></section>
+      <section id="inflacao" class="tab-content hidden"></section>
+      <section id="mapa" class="tab-content hidden"></section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
